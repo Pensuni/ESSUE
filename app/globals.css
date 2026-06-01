@@ -1,3 +1,8 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* 핑크빛 배경을 기본으로 깔아주는 설정 */
+body {
+  background-color: #fff1f2; /* 약간 연한 핑크색 */
+}
