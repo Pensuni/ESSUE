@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { createClient } from "@supabase/supabase-js";
 
 // ==========================================================
-// 🔑 준수가 성공했던 Supabase 설정을 여기에 그대로 넣어줘!
+// 🔑 준수가 성공했던 Supabase 설정 유지
 // ==========================================================
 const SUPABASE_URL = "https://whgycytlscawipelzhzj.supabase.co"; 
 const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndoZ3ljeXRsc2Nhd2lwZWx6aHpqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAwNTMzMjEsImV4cCI6MjA5NTYyOTMyMX0.hDFCRQUWWJpcG9BpOoa2g91_KRsyGa8hhLGpCK8D93A";
@@ -29,6 +29,8 @@ interface Feedback {
 }
 
 export default function Home() {
+  const [showCover, setShowCover] = useState(true);
+
   const [activeTab, setActiveTab] = useState<"home" | "question" | "feedback" | "news">("home");
   const [dept, setDept] = useState("");
   const [topic, setTopic] = useState("진로");
@@ -98,6 +100,76 @@ export default function Home() {
     }
   };
 
+  // --------------------------------------------------------
+  // ⚡ [수정본] 사선 꼬임 현상과 크기 오류를 전면 수정한 안전한 앞 표지
+  // --------------------------------------------------------
+  if (showCover) {
+    return (
+      <div className="min-h-screen bg-slate-100 flex justify-center items-center font-sans p-4 antialiased">
+        {/* 준수의 다른 UI 페이지와 정확히 일치하는 스마트폰 프레임 규격 고정 */}
+        <div className="w-full max-w-md h-[840px] bg-slate-900 text-white shadow-2xl rounded-[40px] overflow-hidden flex flex-col justify-between p-8 text-center relative border-8 border-slate-950">
+          
+          {/* 상단 디자인 바 */}
+          <div className="w-16 h-1 bg-slate-800 mx-auto rounded-full mt-1 shrink-0" />
+
+          {/* 본문 콘텐츠 영역 (오류 유발 스타일 제거) */}
+          <div className="my-auto space-y-6">
+            {/* 고정된 로고 아이콘 박스 */}
+            <div className="w-20 h-20 bg-blue-600 rounded-3xl mx-auto flex justify-center items-center shadow-xl shadow-blue-500/20 border border-white/10">
+              <span className="text-4xl">⚡</span>
+            </div>
+            
+            <div className="space-y-2">
+              <h1 className="text-4xl font-black tracking-widest text-white">
+                ESSUE
+              </h1>
+              <div className="h-0.5 w-12 bg-blue-500 mx-auto rounded-full" />
+            </div>
+
+            <p className="text-xs font-semibold text-slate-300 max-w-xs mx-auto leading-relaxed">
+              강남대학교 선배와 후배를 잇는<br />
+              <span className="text-blue-400 font-bold">익명 지식 공유 멘토링 플랫폼</span>
+            </p>
+
+            {/* 기획 설명 카드 레이아웃 */}
+            <div className="space-y-2 pt-4 text-left max-w-xs mx-auto">
+              <div className="flex items-center space-x-3 bg-white/5 p-3 rounded-xl border border-white/5">
+                <span className="text-base">🔒</span>
+                <span className="text-xs text-slate-300 font-medium">안전함이 보장된 100% 익명 질문 시스템</span>
+              </div>
+              <div className="flex items-center space-x-3 bg-white/5 p-3 rounded-xl border border-white/5">
+                <span className="text-base">🎯</span>
+                <span className="text-xs text-slate-300 font-medium">전공별 선배 매칭과 실시간 피드백 답변</span>
+              </div>
+              <div className="flex items-center space-x-3 bg-white/5 p-3 rounded-xl border border-white/5">
+                <span className="text-base">📰</span>
+                <span className="text-xs text-slate-300 font-medium">강남학보사 공식 소식 모아보기 브릿지</span>
+              </div>
+            </div>
+          </div>
+
+          {/* 하단 버튼 영역 */}
+          <div className="space-y-4 shrink-0 mb-2">
+            <button
+              onClick={() => setShowCover(false)}
+              className="w-full py-4 bg-gradient-to-r from-blue-500 to-indigo-600 text-white font-bold text-xs rounded-2xl shadow-lg shadow-indigo-500/20 active:scale-95 transition-all flex justify-center items-center space-x-2 cursor-pointer hover:from-blue-600 hover:to-indigo-700"
+            >
+              <span>이쓔 시작하기</span>
+              <span>🚀</span>
+            </button>
+            <p className="text-[10px] text-slate-600 tracking-wider">
+              © 2026 ESSUE Team. All rights reserved.
+            </p>
+          </div>
+
+        </div>
+      </div>
+    );
+  }
+
+  // --------------------------------------------------------
+  // 📥 [기존 준수 원본 UI 및 Supabase 기능 코드 영역]
+  // --------------------------------------------------------
   return (
     <div className="min-h-screen bg-slate-100 flex justify-center items-center font-sans p-4 antialiased">
       <div className="w-full max-w-md h-[840px] bg-white shadow-2xl rounded-[40px] overflow-hidden flex flex-col relative border-8 border-slate-900">
